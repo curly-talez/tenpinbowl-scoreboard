@@ -1,11 +1,35 @@
 <h1>Ten Pin Bowl Score Board</h1>
 <div class="score_list__container">
   <div class="score_list__item" *ngFor="let frame of frames">
+    <div class="score_list__frame">Frame : {{ frame }}</div>
     <div class="score_list__top">
-      <div class="score_list__top__left">1</div>
-      <div class="score_list__top__right">21</div>
+      <div class="score_list__top__left">
+        <span *ngIf="frameDetailsMap[frame].scores[0] < 10">{{
+          frameDetailsMap[frame].scores[0]
+        }}</span>
+        <span *ngIf="frameDetailsMap[frame].scores[0] === 10"> x </span>
+      </div>
+      <div class="score_list__top__right">
+        <span *ngIf="frameDetailsMap[frame].totalScoresOfAFrame < 10">{{
+          frameDetailsMap[frame].scores[1]
+        }}</span>
+        <span
+          *ngIf="
+            frameDetailsMap[frame].scores[0] +
+              frameDetailsMap[frame].scores[1] ===
+            10
+          "
+        >
+          /
+        </span>
+      </div>
     </div>
-    <div class="score_list__bottom">22</div>
+    <div class="score_list__bottom">
+      {{ frameDetailsMap[frame].totalScoresOfAFrame }}
+    </div>
+    <div class="score_list__frame">
+      Total : {{ frameDetailsMap[frame].totalScoresOfPlayer }}
+    </div>
   </div>
 </div>
 
@@ -18,11 +42,38 @@
         id="'frame_'+ {{ i }}"
         *ngFor="let frame of frames; let i = index"
       >
-        {{ frame }}
+        <div>{{ frame }}</div>
       </div>
     </div>
     <div class="frames__bowl">
-      <button (click)="newBall()">BOWL NEW FRAME NOW</button>
+      <button (click)="newBall()" [disabled]="!(currentFrame <= 10)">
+        BOWL NEW FRAME NOW
+      </button>
     </div>
   </div>
 </div>
+
+<table>
+  <thead>
+    <td>Frame</td>
+    <td>Current Score</td>
+    <td>Additional bowls</td>
+    <td>Additional Scores</td>
+    <td>Total Score of the frame</td>
+  </thead>
+  <tbody>
+    <tr *ngFor="let frame of frames">
+      <td>{{ frame }}</td>
+      <td>
+        {{ frameDetailsMap[frame].scores[0] }},
+        {{ frameDetailsMap[frame].scores[1] }}
+      </td>
+      <td>{{ frameDetailsMap[frame].additionalRolls }}</td>
+      <td>
+        {{ frameDetailsMap[frame].additionalScores[0] }},
+        {{ frameDetailsMap[frame].additionalScores[1] }}
+      </td>
+      <td>{{ frameDetailsMap[frame].totalScoresOfAFrame }}</td>
+    </tr>
+  </tbody>
+</table>

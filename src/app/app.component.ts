@@ -19,16 +19,20 @@ export class AppComponent implements OnInit {
 
   frameDetailsMap: any = {};
   framesWithAdditionalRolls: number[] = []
-  
+
+  totalScores = 0;
+
   ngOnInit(): void {
     for (let i = 1;  i < this.frames.length+1; i++) {
       this.frameDetailsMap[i] = {
         frame: i,
         scores: [],
-        totalScores: 0,
+        totalScoresOfAFrame: 0,
         additionalRolls: 0,
+        additionalScores: [],
         isSpare: false,
-        isStrike: false
+        isStrike: false,
+        totalScoresOfPlayer: 0
       }
     }
   }
@@ -40,12 +44,12 @@ export class AppComponent implements OnInit {
     } else {
       this.secondRoll();
     }
-    console.log('New Ball ------------------', this.frameDetailsMap[this.currentFrame]),
-    console.log('framesWithAdditionalRolls--------------', this.framesWithAdditionalRolls)
   }
 
   firstRoll() {
     this.currentScore = this.generateRandomNumber(11);
+    this.addScoresForAdditionalBowls();
+
     if(this.currentScore === 10) { // strike
       this.frameDetailsMap[this.currentFrame].isStrike = true;
       this.remainingRollesForFrame = 2;
@@ -56,7 +60,7 @@ export class AppComponent implements OnInit {
       this.remainingRollesForFrame--;
     }
     this.frameDetailsMap[this.currentFrame].scores.push(this.currentScore);
-    this.frameDetailsMap[this.currentFrame].totalScores += this.currentScore;
+    this.frameDetailsMap[this.currentFrame].totalScoresOfAFrame += this.currentScore;
   }
 
   secondRoll() {
@@ -64,8 +68,9 @@ export class AppComponent implements OnInit {
     this.currentFrameIndex ++;
     this.currentScore = this.generateRandomNumber(11-this.currentScore);
     this.frameDetailsMap[this.currentFrame].scores.push(this.currentScore);
-    this.frameDetailsMap[this.currentFrame].totalScores += this.currentScore;
-    if (this.frameDetailsMap[this.currentFrame].totalScores === 10) { // spare
+    this.frameDetailsMap[this.currentFrame].totalScoresOfAFrame += this.currentScore;
+    this.addScoresForAdditionalBowls();
+    if (this.frameDetailsMap[this.currentFrame].totalScoresOfAFrame === 10) { // spare
       this.frameDetailsMap[this.currentFrame].isSpare = true;
       this.frameDetailsMap[this.currentFrame].additionalRolls = 1;
       this.framesWithAdditionalRolls.push(this.currentFrame);
@@ -75,6 +80,29 @@ export class AppComponent implements OnInit {
   generateRandomNumber (roll: number) {
     return  Math.floor(Math.random() * roll)
   }
+
+  addScoresForAdditionalBowls() {
+    if (this.framesWithAdditionalRolls.length > 0) {
+      for(let i = 0; i < this.framesWithAdditionalRolls.length; i++) {
+        let frame = this.framesWithAdditionalRolls[i]
+        // console.log('frame with additional bowl - ', frame );
+
+        if (this.frameDetailsMap[frame].additionalRolls === 0) {
+          console.log('additional rolls is zero', frame)
+          this.framesWithAdditionalRolls.slice(this.framesWithAdditionalRolls.indexOf(frame), 1);
+          console.log('additional rolls is zero after removing roll', this.framesWithAdditionalRolls)
+        } else if (this.frameDetailsMap[frame].additionalRolls > 0) {
+          this.frameDetailsMap[frame].additionalScores.push(this.currentScore);
+          this.frameDetailsMap[frame].totalScoresOfAFrame += this.currentScore;
+          this.frameDetailsMap[frame].additionalRolls--;
+        }
+        console.log('remaing frames with additional bowls', this.framesWithAdditionalRolls)
+      }
+    }
+  }
+
+  // getTotalScoresOfPlayer () {
+  // }
 }
 
 /***
