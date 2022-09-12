@@ -20,8 +20,6 @@ export class AppComponent implements OnInit {
   frameDetailsMap: any = {};
   framesWithAdditionalRolls: number[] = []
 
-  totalScores = 0;
-
   ngOnInit(): void {
     for (let i = 1;  i < this.frames.length+1; i++) {
       this.frameDetailsMap[i] = {
@@ -44,6 +42,7 @@ export class AppComponent implements OnInit {
     } else {
       this.secondRoll();
     }
+    this.getTotalScoresOfPlayer(this.currentFrame);
   }
 
   firstRoll() {
@@ -59,16 +58,14 @@ export class AppComponent implements OnInit {
     } else { // not a strike
       this.remainingRollesForFrame--;
     }
-    this.frameDetailsMap[this.currentFrame].scores.push(this.currentScore);
-    this.frameDetailsMap[this.currentFrame].totalScoresOfAFrame += this.currentScore;
+   this.getTotalScoresOfFrame();
   }
 
   secondRoll() {
     this.remainingRollesForFrame = 2;
     this.currentFrameIndex ++;
     this.currentScore = this.generateRandomNumber(11-this.currentScore);
-    this.frameDetailsMap[this.currentFrame].scores.push(this.currentScore);
-    this.frameDetailsMap[this.currentFrame].totalScoresOfAFrame += this.currentScore;
+    this.getTotalScoresOfFrame();
     this.addScoresForAdditionalBowls();
     if (this.frameDetailsMap[this.currentFrame].totalScoresOfAFrame === 10) { // spare
       this.frameDetailsMap[this.currentFrame].isSpare = true;
@@ -88,7 +85,6 @@ export class AppComponent implements OnInit {
         // console.log('frame with additional bowl - ', frame );
 
         if (this.frameDetailsMap[frame].additionalRolls === 0) {
-          console.log('additional rolls is zero', frame)
           this.framesWithAdditionalRolls.slice(this.framesWithAdditionalRolls.indexOf(frame), 1);
           console.log('additional rolls is zero after removing roll', this.framesWithAdditionalRolls)
         } else if (this.frameDetailsMap[frame].additionalRolls > 0) {
@@ -101,8 +97,18 @@ export class AppComponent implements OnInit {
     }
   }
 
-  // getTotalScoresOfPlayer () {
-  // }
+  getTotalScoresOfFrame() {
+    this.frameDetailsMap[this.currentFrame].scores.push(this.currentScore);
+    this.frameDetailsMap[this.currentFrame].totalScoresOfAFrame += this.currentScore;
+  }
+
+  getTotalScoresOfPlayer (frame: number) {
+    let totalScores = 0;
+    for ( let i =1 ;  i <= frame; i++) {
+      totalScores += this.frameDetailsMap[i].totalScoresOfAFrame;
+      this.frameDetailsMap[i].totalScoresOfPlayer = totalScores;
+    }
+  }
 }
 
 /***

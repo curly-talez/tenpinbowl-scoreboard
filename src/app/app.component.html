@@ -1,6 +1,12 @@
 <h1>Ten Pin Bowl Score Board</h1>
 <div class="score_list__container">
-  <div class="score_list__item" *ngFor="let frame of frames">
+  <div
+    class="score_list__item"
+    *ngFor="let frame of frames"
+    [ngClass]="{
+      score_list__item__active: frameDetailsMap[frame].scores.length !== 0
+    }"
+  >
     <div class="score_list__frame">Frame : {{ frame }}</div>
     <div class="score_list__top">
       <div class="score_list__top__left">
@@ -41,6 +47,9 @@
         class="frames__name"
         id="'frame_'+ {{ i }}"
         *ngFor="let frame of frames; let i = index"
+        [ngClass]="{
+          frames__name__active: frameDetailsMap[frame].scores.length !== 0
+        }"
       >
         <div>{{ frame }}</div>
       </div>
