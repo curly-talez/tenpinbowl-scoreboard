@@ -1,31 +1,43 @@
+$itemBg: #f76c6c;
+
 .score_list {
     &__container {
         width: 100%;
-        height: 100px;
-        border: 1px solid black;
+        // height: 100px;
+        // border: 1px solid black;
         display: flex;
         text-align: center;
     }
 
     &__frame {
-        border-bottom: 1px solid black;
+        // border-bottom: 1px solid #5792ba;
+        background-color: #7b7261;
+        padding: 5% 0 0;
     } 
 
     &__item {
         width: 10%;
         height: 100%;
-        border: 1px solid black;
-        background: antiquewhite;
+        // border: 1px solid #5792ba;
+        background: #F78888;
+        color: white;
+        opacity: 0.5;
+        padding: 0;
+        font-size: 18px;
+        font-weight: 400px;
+        box-shadow: 9px 11px 23px -8px rgba(0,0,0,0.75);
+
 
         &__active {
-            background-color: yellow;
+            // background-color: $itemBg;
+            opacity: 1;
         }
     }
 
     &__top {
         display: flex;
         justify-content: space-between;
-        height: 50%;
+        height: 50px;
 
         &__left{
             width: 50%;
@@ -33,14 +45,16 @@
         }
 
         &__right {
-            border: 2px solid red;
+            // border: 2px solid #5792ba;
+            background-color: #5792ba;
             width: 50%;
             padding: 10% 0;
         }
     }
 
     &__bottom {
-        padding: 10% 0;
+        padding: 20px 0 0;
+        height: 50px;
     }
 
 }
@@ -64,20 +78,39 @@
         height: 50px;
         width: 50px;
         border-radius: 50%;
-        background-color: red;
+        background-color: #471961;
+        opacity: 0.5;
         text-align: center;
         display: flex;
         justify-content: center;
         align-items: center;
+        color: #fff;
 
         &__active {
-            background-color: yellow !important;
+            background-color: #471961 !important;
+            opacity: 1;
+            color: #fff;
         }
     }
 
     &__bowl{
-        width: 20%;
         display: flex;
         justify-content: center;
+        margin:  30px;
+        button {
+            height: 50px;
+            width: 220px;
+            border-radius: 10px;
+            background-color: #413c33;
+            outline: none;
+            border: #413c33;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background-color: #8f8d88;
+            cursor: pointer;
+        }
     }
 }

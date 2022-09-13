@@ -1,72 +1,95 @@
 <h1>Ten Pin Bowl Score Board</h1>
 <div class="score_list__container">
-  <div
-    class="score_list__item"
-    *ngFor="let frame of frames"
-    [ngClass]="{
-      score_list__item__active: frameDetailsMap[frame].scores.length !== 0
-    }"
-  >
-    <div class="score_list__frame">Frame : {{ frame }}</div>
-    <div class="score_list__top">
-      <div class="score_list__top__left">
-        <span *ngIf="frameDetailsMap[frame].scores[0] < 10">{{
-          frameDetailsMap[frame].scores[0]
-        }}</span>
-        <span *ngIf="frameDetailsMap[frame].scores[0] === 10"> x </span>
+  <ng-container *ngFor="let frame of frames">
+    <div
+      class="score_list__item"
+      *ngIf="frame <= 10"
+      [ngClass]="{
+        score_list__item__active: frameDetailsMap[frame].scores.length !== 0
+      }"
+    >
+      <div class="score_list__frame">Frame : {{ frame }}</div>
+      <div class="score_list__top">
+        <div class="score_list__top__left">
+          <span *ngIf="frameDetailsMap[frame].scores[0] < 10">{{
+            frameDetailsMap[frame].scores[0]
+          }}</span>
+          <span *ngIf="frameDetailsMap[frame].scores[0] === 10"> x </span>
+        </div>
+        <div class="score_list__top__right">
+          <span *ngIf="frameDetailsMap[frame].totalScoresOfAFrame < 10">{{
+            frameDetailsMap[frame].scores[1]
+          }}</span>
+          <span
+            *ngIf="
+              frameDetailsMap[frame].scores[0] +
+                frameDetailsMap[frame].scores[1] ===
+              10
+            "
+          >
+            /
+          </span>
+        </div>
       </div>
-      <div class="score_list__top__right">
-        <span *ngIf="frameDetailsMap[frame].totalScoresOfAFrame < 10">{{
-          frameDetailsMap[frame].scores[1]
-        }}</span>
-        <span
-          *ngIf="
-            frameDetailsMap[frame].scores[0] +
-              frameDetailsMap[frame].scores[1] ===
-            10
-          "
-        >
-          /
-        </span>
+      <div>
+        <div class="score_list__bottom">
+          {{ frameDetailsMap[frame].totalScoresOfAFrame }}
+        </div>
+        <div class="score_list__frame">
+          Total : {{ frameDetailsMap[frame].totalScoresOfPlayer }}
+        </div>
       </div>
     </div>
-    <div class="score_list__bottom">
-      {{ frameDetailsMap[frame].totalScoresOfAFrame }}
-    </div>
-    <div class="score_list__frame">
-      Total : {{ frameDetailsMap[frame].totalScoresOfPlayer }}
-    </div>
-  </div>
+  </ng-container>
 </div>
 
 <div class="frames">
   <h1>Frames</h1>
   <div class="frames__container">
     <div class="frames__set">
-      <div
-        class="frames__name"
-        id="'frame_'+ {{ i }}"
-        *ngFor="let frame of frames; let i = index"
-        [ngClass]="{
-          frames__name__active: frameDetailsMap[frame].scores.length !== 0
-        }"
-      >
-        <div>{{ frame }}</div>
-      </div>
-    </div>
-    <div class="frames__bowl">
-      <button (click)="newBall()" [disabled]="!(currentFrame <= 10)">
-        BOWL NEW FRAME NOW
-      </button>
+      <ng-container *ngFor="let frame of frames; let i = index">
+        <div
+          class="frames__name"
+          id="'frame_'+ {{ i }}"
+          *ngIf="frame <= 10"
+          [ngClass]="{
+            frames__name__active: frameDetailsMap[frame].scores.length !== 0
+          }"
+        >
+          <div>{{ frame }}</div>
+        </div>
+      </ng-container>
     </div>
   </div>
 </div>
 
+<div class="frames__bowl">
+  <button (click)="newBall()" [disabled]="disableButton()">
+    BOWL NEW FRAME NOW
+  </button>
+</div>
+
+isStrike / isSpare:
+{{
+  currentFrame >= 10 &&
+    frameDetailsMap[10].additionalRolls === 0 &&
+    (frameDetailsMap[10].isStrike || frameDetailsMap[10].isSpare)
+}}
+<br />
+Normal:
+{{
+  currentFrame === 10 &&
+    frameDetailsMap[10].scores.length === 2 &&
+    !frameDetailsMap[10].isStrike &&
+    !frameDetailsMap[10].isSpare
+}}
+
 <table>
   <thead>
     <td>Frame</td>
-    <td>Current Score</td>
-    <td>Additional bowls</td>
+    <td>First Bowl</td>
+    <td>Second Bowl</td>
+    <td>Additional bowls left</td>
     <td>Additional Scores</td>
     <td>Total Score of the frame</td>
   </thead>
@@ -74,7 +97,9 @@
     <tr *ngFor="let frame of frames">
       <td>{{ frame }}</td>
       <td>
-        {{ frameDetailsMap[frame].scores[0] }},
+        {{ frameDetailsMap[frame].scores[0] }}
+      </td>
+      <td>
         {{ frameDetailsMap[frame].scores[1] }}
       </td>
       <td>{{ frameDetailsMap[frame].additionalRolls }}</td>
