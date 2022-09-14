@@ -3,10 +3,16 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FrameScoreDetailsComponent } from 'src/components/frame-score-details/frame-score-details.component';
+import { FrameDetailsComponent } from 'src/components/frame-details/frame-details.component';
+import { ScoreDetailsTableComponent } from 'src/components/score-detailed-table/score-detailed-table.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FrameScoreDetailsComponent,
+    FrameDetailsComponent,
+    ScoreDetailsTableComponent
   ],
   imports: [
     BrowserModule,

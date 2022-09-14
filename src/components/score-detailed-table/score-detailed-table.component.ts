@@ -2,12 +2,12 @@ import { Component, OnInit } from "@angular/core";
 import { CommonService } from "../services/common.service";
 
 @Component({
-    selector: 'frame-score-details',
-    templateUrl: './frame-score-details.component.html',
-    styleUrls: ['./frame-score-details.component.scss']
+    selector: 'score-details-table',
+    templateUrl: './score-details-table.component.html',
+    styleUrls: ['./score-details-table.component.scss']
 })
 
-export class FrameScoreDetailsComponent implements OnInit {
+export class ScoreDetailsTableComponent implements OnInit {
     public frames: number[] = [];
     public frameDetailsMap: any;
 

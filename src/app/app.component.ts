@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonService } from 'src/components/services/common.service';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,24 @@ export class AppComponent implements OnInit {
   frameDetailsMap: any = {};
   framesWithAdditionalRolls: number[] = []
 
+  toggleTable = true;
+
+  constructor(private commonService: CommonService) {}
+
   ngOnInit(): void {
+    this.createFrameDetailsMap();
+  }
+
+  newGame() {
+    this.createFrameDetailsMap();
+    this.currentFrameIndex=0;
+  }
+
+  toggleTableView() {
+    this.toggleTable = !this.toggleTable;
+  }
+
+   createFrameDetailsMap() {
     for (let i = 1;  i < this.frames.length+1; i++) {
       this.frameDetailsMap[i] = {
         frame: i,
@@ -30,7 +48,8 @@ export class AppComponent implements OnInit {
         totalScoresOfPlayer: 0
       }
     }
-  }
+    this.commonService.frameDetailsMap = this.frameDetailsMap;
+   }
 
   newBall() {
     this.currentFrame = this.frames[this.currentFrameIndex];
@@ -60,7 +79,7 @@ export class AppComponent implements OnInit {
     if(this.currentScore === 10) { // strike
       this.frameDetailsMap[this.currentFrame].isStrike = true;
       this.remainingRollesForFrame = 2;
-      this.currentFrameIndex++; console.log(this.currentFrameIndex)
+      this.currentFrameIndex++;
       this.frameDetailsMap[this.currentFrame].additionalRolls = 2;
       this.framesWithAdditionalRolls.push(this.currentFrame);
     } else { // not a strike
@@ -123,7 +142,7 @@ export class AppComponent implements OnInit {
     } else if (!this.frameDetailsMap[10].isStrike && !this.frameDetailsMap[10].isSpare) {
       return this.currentFrame === 10 && this.frameDetailsMap[10].scores.length === 2
     }
-    return;
+    return false;
   }
 }
 

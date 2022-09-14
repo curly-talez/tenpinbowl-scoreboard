@@ -1,0 +1,32 @@
+<table class="table">
+  <thead>
+    <td>Frame</td>
+    <td>First Bowl</td>
+    <td>Second Bowl</td>
+    <td>Additional bowls left</td>
+    <td>Additional Scores</td>
+    <td>Total Score of the frame</td>
+  </thead>
+  <tbody>
+    <tr *ngFor="let frame of frames">
+      <td>
+        <span *ngIf="frame <= 10; else additionalBowlsOfLastFrame">
+          {{ frame }}</span
+        >
+        <ng-template #additionalBowlsOfLastFrame>_</ng-template>
+      </td>
+      <td>
+        {{ frameDetailsMap[frame].scores[0] }}
+      </td>
+      <td>
+        {{ frameDetailsMap[frame].scores[1] }}
+      </td>
+      <td>{{ frameDetailsMap[frame].additionalRolls }}</td>
+      <td>
+        {{ frameDetailsMap[frame].additionalScores[0] }},
+        {{ frameDetailsMap[frame].additionalScores[1] }}
+      </td>
+      <td>{{ frameDetailsMap[frame].totalScoresOfAFrame }}</td>
+    </tr>
+  </tbody>
+</table>

@@ -1,0 +1,27 @@
+<div class="frames">
+  <div *ngIf="!hideFrames; else showFrames" class="frames__outer_container">
+    <div class="frames__heading">Frames</div>
+    <div class="frames__container">
+      <div class="frames__set">
+        <ng-container *ngFor="let frame of frames; let i = index">
+          <div
+            class="frames__name"
+            id="'frame_'+ {{ i }}"
+            *ngIf="frame <= 10"
+            [ngClass]="{
+              frames__name__active: frameDetailsMap[frame].scores.length !== 0
+            }"
+          >
+            <div>{{ frame }}</div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <ng-template #showFrames>
+    <div class="frames__outer_container frames__scores">
+      Nice Play, Your Total Score is
+      {{ frameDetailsMap[10].totalScoresOfPlayer }}
+    </div>
+  </ng-template>
+</div>

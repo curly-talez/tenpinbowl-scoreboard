@@ -1,0 +1,43 @@
+<div class="score_list__container">
+  <ng-container *ngFor="let frame of frames">
+    <div
+      class="score_list__item"
+      *ngIf="frame <= 10"
+      [ngClass]="{
+        score_list__item__active: frameDetailsMap[frame].scores.length !== 0
+      }"
+    >
+      <div class="score_list__frame">Frame : {{ frame }}</div>
+      <div class="score_list__top">
+        <div class="score_list__top__left">
+          <span *ngIf="frameDetailsMap[frame].scores[0] < 10">{{
+            frameDetailsMap[frame].scores[0]
+          }}</span>
+          <span *ngIf="frameDetailsMap[frame].scores[0] === 10"> x </span>
+        </div>
+        <div class="score_list__top__right">
+          <span *ngIf="frameDetailsMap[frame].totalScoresOfAFrame < 10">{{
+            frameDetailsMap[frame].scores[1]
+          }}</span>
+          <span
+            *ngIf="
+              frameDetailsMap[frame].scores[0] +
+                frameDetailsMap[frame].scores[1] ===
+              10
+            "
+          >
+            /
+          </span>
+        </div>
+      </div>
+      <div>
+        <div class="score_list__bottom">
+          {{ frameDetailsMap[frame].totalScoresOfAFrame }}
+        </div>
+        <div class="score_list__frame">
+          Total : {{ frameDetailsMap[frame].totalScoresOfPlayer }}
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
