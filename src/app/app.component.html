@@ -1,14 +1,17 @@
-<div class="frames__heading">Ten Pin Bowl Score Board</div>
+<div class="scoreboard__heading">Ten Pin Bowl Score Board</div>
+<!-- score borad with frame details -->
 <frame-score-details></frame-score-details>
+<!-- frame list with active frames -->
 <frame-details [hideFrames]="disableButton()"></frame-details>
-<div class="frames__bowl">
-  <button (click)="newBall()" [disabled]="disableButton()">BOWL NOW</button>
+<div class="scoreboard__bowl">
+  <button (click)="newBall()" [disabled]="disableButton()">Bowl Now</button>
 </div>
-<div class="frames__bowl">
-  <button [disabled]="disableButton()" (click)="toggleTableView()">
+<div class="scoreboard__bowl">
+  <button (click)="toggleTableView()">
     <span *ngIf="toggleTable">Show Details Score Table</span>
     <span *ngIf="!toggleTable">Hide Details Score Table</span>
   </button>
   <button (click)="newGame()" [disabled]="!disableButton()">New Game!</button>
 </div>
+<!-- detailed bowl score details in table view -->
 <score-details-table *ngIf="!toggleTable"></score-details-table>

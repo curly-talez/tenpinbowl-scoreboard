@@ -1,7 +1,11 @@
+// Angular imports
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+// User defined module imports
 import { AppRoutingModule } from './app-routing.module';
+
+// user defined component imports
 import { AppComponent } from './app.component';
 import { FrameScoreDetailsComponent } from 'src/app/components/frame-score-details/frame-score-details.component';
 import { FrameDetailsComponent } from 'src/app/components/frame-details/frame-details.component';

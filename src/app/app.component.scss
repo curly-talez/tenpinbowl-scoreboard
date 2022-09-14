@@ -1,42 +1,14 @@
+$headingColor: #471961;
+$buttonBg: #413c33;
+$buttonDisableBg: #8f8d88;
+$white: #fff;
 
-.frames {
-
+.scoreboard {
     &__heading {
         font-size: 50px;
         font-weight: 600;
-        margin: 70px 0 50px;
-        color: #471961;
-    }
-
-    &__container {
-        display: flex;
-        width: 100%;
-        justify-content: center;
-    }
-
-    &__set {
-        display: flex;
-        width: 70%;
-        justify-content: space-between;
-    }
-
-    &__name{
-        height: 50px;
-        width: 50px;
-        border-radius: 50%;
-        background-color: #471961;
-        opacity: 0.5;
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #fff;
-
-        &__active {
-            background-color: #471961 !important;
-            opacity: 1;
-            color: #fff;
-        }
+        margin: 70px 0 20px;
+        color: $headingColor;
     }
 
     &__bowl{
@@ -47,17 +19,17 @@
             height: 50px;
             width: 220px;
             border-radius: 10px;
-            background-color: #413c33;
+            background-color: $buttonBg;
             outline: none;
-            border: #413c33;
-            color: #fff;
+            border: $buttonBg;
+            color: $white;
             cursor: pointer;
             margin: 0 10px;
         }
 
         button:disabled {
-            background-color: #8f8d88;
-            cursor: pointer;
+            background-color: $buttonDisableBg;
+            cursor: not-allowed;
         }
     }
 }

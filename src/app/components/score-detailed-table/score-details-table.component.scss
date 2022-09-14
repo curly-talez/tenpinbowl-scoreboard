@@ -1,9 +1,11 @@
+$black: #000;
+
 .table {
     width: 100%;
     text-align: center;
-    border: 1px solid black;
+    border: 1px solid $black;
     th, td {
-        border: 1px solid black;
+        border: 1px solid $black;
         padding: 3px;
     }
 }

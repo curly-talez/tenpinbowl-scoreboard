@@ -1,5 +1,8 @@
+// Angular imports
 import { Component, Input, OnInit } from "@angular/core";
-import { CommonService } from "../services/common.service";
+
+// User defined service imports
+import { CommonService } from "../../services/common.service";
 
 @Component({
     selector: 'frame-details',
@@ -18,6 +21,4 @@ export class FrameDetailsComponent implements OnInit {
         this.frames = this.commonService.frames;
         this.frameDetailsMap = this.commonService.frameDetailsMap;
     }
-
-    
 }

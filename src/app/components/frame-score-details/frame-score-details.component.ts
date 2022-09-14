@@ -1,5 +1,8 @@
+// Angular imports
 import { Component, OnInit } from "@angular/core";
-import { CommonService } from "../services/common.service";
+
+// User defined service imports
+import { CommonService } from "../../services/common.service";
 
 @Component({
     selector: 'frame-score-details',

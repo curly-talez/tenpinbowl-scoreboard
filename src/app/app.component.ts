@@ -1,14 +1,18 @@
+// Angular imports
 import { Component, OnInit } from '@angular/core';
-import { CommonService } from 'src/app/components/services/common.service';
+
+// user defined service imports
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
+
 export class AppComponent implements OnInit {
   title = 'scoreBoard';
-  frames = [1,2,3,4,5,6,7,8,9,10,11,12];
+  frames: number[] = [];
 
   currentScore = 0;
   remainingRollesForFrame = 2; 
@@ -23,34 +27,39 @@ export class AppComponent implements OnInit {
   constructor(private commonService: CommonService) {}
 
   ngOnInit(): void {
+    this.frames = this.commonService.frames;
     this.createFrameDetailsMap();
   }
 
+  // Method for starting new game
   newGame() {
     this.createFrameDetailsMap();
     this.currentFrameIndex=0;
   }
 
+  // method to toggle hide and show detailed score table
   toggleTableView() {
     this.toggleTable = !this.toggleTable;
   }
 
-   createFrameDetailsMap() {
-    for (let i = 1;  i < this.frames.length+1; i++) {
-      this.frameDetailsMap[i] = {
-        frame: i,
-        scores: [],
-        totalScoresOfAFrame: 0,
-        additionalRolls: 0,
-        additionalScores: [],
-        isSpare: false,
-        isStrike: false,
-        totalScoresOfPlayer: 0
-      }
+  // Method to set frameDetailsMap
+  createFrameDetailsMap() {
+  for (let i = 1;  i < this.frames.length+1; i++) {
+    this.frameDetailsMap[i] = {
+      frame: i,
+      scores: [],
+      totalScoresOfAFrame: 0,
+      additionalRolls: 0,
+      additionalScores: [],
+      isSpare: false,
+      isStrike: false,
+      totalScoresOfPlayer: 0
     }
-    this.commonService.frameDetailsMap = this.frameDetailsMap;
-   }
+  }
+  this.commonService.frameDetailsMap = this.frameDetailsMap;
+  }
 
+  // Method to do new bowl
   newBall() {
     this.currentFrame = this.frames[this.currentFrameIndex];
     if (this.frameDetailsMap[this.currentFrame]) {
@@ -60,16 +69,7 @@ export class AppComponent implements OnInit {
         this.secondRoll();
       }
       this.getTotalScoresOfPlayer(this.currentFrame);
-    } else {
-      this.handleAdditionalLastBowls();
     }
-    
-  }
-
-  handleAdditionalLastBowls() { 
-    console.log('index exceeded!')
-    this.currentScore = this.generateRandomNumber(11);
-    this.addScoresForAdditionalBowls()
   }
 
   firstRoll() {
@@ -102,10 +102,12 @@ export class AppComponent implements OnInit {
     }
   }
 
+  // generate random score for each bowl
   generateRandomNumber (roll: number) {
     return  Math.floor(Math.random() * roll)
   }
 
+  // Add score for spare and strike
   addScoresForAdditionalBowls() {
     if (this.framesWithAdditionalRolls.length > 0) {
       for(let i = 0; i < this.framesWithAdditionalRolls.length; i++) {
@@ -123,11 +125,13 @@ export class AppComponent implements OnInit {
     }
   }
 
+  // Method for calculating scores for each frame
   getTotalScoresOfFrame() {
     this.frameDetailsMap[this.currentFrame].scores.push(this.currentScore);
     this.frameDetailsMap[this.currentFrame].totalScoresOfAFrame += this.currentScore;
   }
 
+  // Method for calculating total scores of the player
   getTotalScoresOfPlayer (frame: number) {
     let totalScores = 0;
     for ( let i =1 ;  i <= frame; i++) {
