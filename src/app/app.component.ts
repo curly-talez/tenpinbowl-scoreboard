@@ -11,7 +11,6 @@ import { CommonService } from 'src/app/services/common.service';
 })
 
 export class AppComponent implements OnInit {
-  title = 'scoreBoard';
   frames: number[] = [];
 
   currentScore = 0;
@@ -23,6 +22,7 @@ export class AppComponent implements OnInit {
   framesWithAdditionalRolls: number[] = []
 
   toggleTable = true;
+  disableBowlButton:boolean = false;
 
   constructor(private commonService: CommonService) {}
 
@@ -32,18 +32,18 @@ export class AppComponent implements OnInit {
   }
 
   // Method for starting new game
-  newGame() {
+  newGame(): void {
     this.createFrameDetailsMap();
     this.currentFrameIndex=0;
   }
 
   // method to toggle hide and show detailed score table
-  toggleTableView() {
+  toggleTableView(): void {
     this.toggleTable = !this.toggleTable;
   }
 
   // Method to set frameDetailsMap
-  createFrameDetailsMap() {
+  createFrameDetailsMap(): void {
   for (let i = 1;  i < this.frames.length+1; i++) {
     this.frameDetailsMap[i] = {
       frame: i,
@@ -57,10 +57,11 @@ export class AppComponent implements OnInit {
     }
   }
   this.commonService.frameDetailsMap = this.frameDetailsMap;
+  this.disableButton();
   }
 
   // Method to do new bowl
-  newBall() {
+  newBall(): void {
     this.currentFrame = this.frames[this.currentFrameIndex];
     if (this.frameDetailsMap[this.currentFrame]) {
       if (this.remainingRollesForFrame === 2) {
@@ -69,10 +70,11 @@ export class AppComponent implements OnInit {
         this.secondRoll();
       }
       this.getTotalScoresOfPlayer(this.currentFrame);
+      this.disableButton();
     }
   }
 
-  firstRoll() {
+  firstRoll(): void{
     this.currentScore = this.generateRandomNumber(11);
     this.addScoresForAdditionalBowls();
 
@@ -88,7 +90,7 @@ export class AppComponent implements OnInit {
    this.getTotalScoresOfFrame();
   }
 
-  secondRoll() {
+  secondRoll(): void {
     this.currentFrameIndex ++;
     this.remainingRollesForFrame = 2;
 
@@ -103,12 +105,12 @@ export class AppComponent implements OnInit {
   }
 
   // generate random score for each bowl
-  generateRandomNumber (roll: number) {
+  generateRandomNumber (roll: number): number {
     return  Math.floor(Math.random() * roll)
   }
 
   // Add score for spare and strike
-  addScoresForAdditionalBowls() {
+  addScoresForAdditionalBowls(): void{
     if (this.framesWithAdditionalRolls.length > 0) {
       for(let i = 0; i < this.framesWithAdditionalRolls.length; i++) {
         let frame = this.framesWithAdditionalRolls[i]
@@ -126,13 +128,13 @@ export class AppComponent implements OnInit {
   }
 
   // Method for calculating scores for each frame
-  getTotalScoresOfFrame() {
+  getTotalScoresOfFrame(): void {
     this.frameDetailsMap[this.currentFrame].scores.push(this.currentScore);
     this.frameDetailsMap[this.currentFrame].totalScoresOfAFrame += this.currentScore;
   }
 
   // Method for calculating total scores of the player
-  getTotalScoresOfPlayer (frame: number) {
+  getTotalScoresOfPlayer (frame: number): void {
     let totalScores = 0;
     for ( let i =1 ;  i <= frame; i++) {
       totalScores += this.frameDetailsMap[i].totalScoresOfAFrame;
@@ -140,26 +142,11 @@ export class AppComponent implements OnInit {
     }
   }
 
-  disableButton() {
+  disableButton(): void {
     if (this.frameDetailsMap[10].isSpare || this.frameDetailsMap[10].isStrike) {
-      return this.currentFrame >= 10 && this.frameDetailsMap[10].additionalRolls === 0 
+      this.disableBowlButton = this.currentFrame >= 10 && this.frameDetailsMap[10].additionalRolls === 0;
     } else if (!this.frameDetailsMap[10].isStrike && !this.frameDetailsMap[10].isSpare) {
-      return this.currentFrame === 10 && this.frameDetailsMap[10].scores.length === 2
+      this.disableBowlButton = this.currentFrame === 10 && this.frameDetailsMap[10].scores.length === 2;
     }
-    return false;
   }
 }
-
-/***
-  1. Bowl
-    cases
-    1. first bawl
-      - 10 points
-      - < 10 points
-      - 0 points
-    2. Second bawl
-      - 10 points
-      - first and second 10 points =>  spare
-      - first and second  < 10 points
-      - second ball 0 points
- */

@@ -1,4 +1,7 @@
-$itemBg: #f76c6c;
+$itemBg: #F78888;
+$frameBoxBg: #7b7261;
+$white: #fff;
+$frameBoxRight: #5792ba;
 
 .score_list {
     &__container {
@@ -11,7 +14,7 @@ $itemBg: #f76c6c;
 
     &__frame {
         // border-bottom: 1px solid #5792ba;
-        background-color: #7b7261;
+        background-color: $frameBoxBg;
         padding: 5% 0 0;
     } 
 
@@ -19,8 +22,8 @@ $itemBg: #f76c6c;
         width: 10%;
         height: 100%;
         // border: 1px solid #5792ba;
-        background: #F78888;
-        color: white;
+        background: $itemBg;
+        color: $white;
         opacity: 0.5;
         padding: 0;
         font-size: 18px;
@@ -29,7 +32,6 @@ $itemBg: #f76c6c;
 
 
         &__active {
-            // background-color: $itemBg;
             opacity: 1;
         }
     }
@@ -46,7 +48,7 @@ $itemBg: #f76c6c;
 
         &__right {
             // border: 2px solid #5792ba;
-            background-color: #5792ba;
+            background-color: $frameBoxRight;
             width: 50%;
             padding: 10% 0;
         }

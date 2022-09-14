@@ -1,27 +1,52 @@
 # ScoreBoard
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.5.
+I have developed a score board for Ten Pin Ball considering Traditional Rules for scoring using Angular 13.3.11. Application is not responsive for the time being, it is designed for desktops. I can continue the enhancements in future.
 
-## Development server
+Commands Used:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+To start Application:
 
-## Code scaffolding
+```
+ng serve
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+To run unit tests:
 
-## Build
+```
+ng test
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+I have created 3 component in addition to the root component, and a service for storing commonly shared data.
 
-## Running unit tests
+Components:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. frame-details
+   This component displayes the frames when the game is in progress and displays the totals scores obtained when the game has finised.
+2. frame-score-details
+   This component contains the Score board view.
+3. score-detailed-table
+   This component show the detailed view of scores obtained in each bowl, including the additional scores added to frame due to Strike or Spare obtained in the same frame.
 
-## Running end-to-end tests
+Service:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+1. common
+   This service keeps the shared details like frames arry and frameDetailsMap object
 
-## Further help
+Rules Cosidered for Development:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+1. One point is scored for each pin knocked over.
+2. Ten frames in a game, each frame has two rolls.
+3. When less than 10 pins are knocked in a frame taking two rolls, totals score of the frame is calculated by adding the scores of the individual rolls made in the same frame
+4. STRIKE:
+   - When player knocks all pins in a single first roll of a frame, then it is a Strike.
+   - Strike is marked as 'X' in the score board.
+   - When there is a strike, frame receives 10 pins + bonus of pinfall on the next two rolls
+   - For 10th frame's strike, 10 th frame receives two extra rolls for bonus pins
+5. SPARE
+   - When player knocks all pins in a second roll (taking two rolls) of a frame, then it is a Spare.
+   - Spare is marked as '/' in the score board.
+   - When there is a Spare, frame receives 10 pins + bonus of pinfall on the next roll
+   - For 10th frame's Spare, 10th frame receives one extra rolls for bonus pins
+
+Preview Screenshot:
+![preview](/src/assets/preview.png)
